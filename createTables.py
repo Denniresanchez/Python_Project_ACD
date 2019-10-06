@@ -58,7 +58,7 @@ try:
             Technician text NOT NULL)"""
         )
         conn.commit()
-        #create table payments where we save the payment information of the users
+        #create table payments where we save the payment information of the usersss
         cursor.execute(
             """CREATE TABLE Payments (
 			User_id serial NOT NULL PRIMARY KEY,

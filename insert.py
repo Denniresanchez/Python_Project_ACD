@@ -40,7 +40,7 @@ try:
             ) 
         conn.commit()
     insertServices()
-     # function to insert packages
+     # function to insert packagesss
     def insertPackages():
         cursor = conn.cursor()
     # insert packages into database
