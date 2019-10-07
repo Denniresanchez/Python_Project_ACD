@@ -66,7 +66,11 @@ try:
             Last_name text NOT NULL,
             Phone_number text NOT NULL,
 			Card_number text NOT NULL,
-            Card_name text NOT NULL,
+            Card_name text NOT NULL
+            Sec_number text NOT NULL)
+            Zip_code text NOT NULL)"""
+        )
+        conn.commit()
         cursor.close()  
     createTables()
 except (Exception, psycopg2.Error) as error:
