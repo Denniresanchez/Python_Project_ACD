@@ -22,7 +22,7 @@ while counter = 1
     elif answer = N:
         auth()
         counter = 0
-    
+        
 
 
 

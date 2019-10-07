@@ -1,5 +1,4 @@
 import psycopg2, time
-
 try:
     # required information to use the db 
     conn = psycopg2.connect(
@@ -9,7 +8,7 @@ try:
         host = "127.0.0.1",
         port = "5432"
     )
-
+#Registration:
     def newUser():
         cursor = conn.cursor()
         print("")
@@ -37,9 +36,28 @@ try:
         conn.commit()
 
     newUser()     
+    
 
+#Authentication (I'm using raw_input command because I have an older python version. I haven't been able to solve this)
+    username= raw_input("Username: ")
+    password= raw_input("Password: ")
 
-
-
+    def auth(user,passW): 
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM users WHERE username=%s AND user_pass=%s", (user, passW))
+        rows = cursor.fetchall()
+        # file = open("log.txt", 'a' )
+        # now = datetime.datetime.now()
+        if(rows):
+            print("You have succesfully logged in!")
+            # file.write(f"User {username} loged in at {now}\n")
+        else:
+            print("Wrong credentials")
+            # file.write(f"Some tried to login using this username '{username}' at {now}\n")
+            # file.close()
+        cursor.close()
+    auth(username, password)
+    
 except (Exception, psycopg2.Error) as error:
-    print("Error while fetching data PostgreSQL", error)
+    print("Error while fetching data from your database", error)
+
