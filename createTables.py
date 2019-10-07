@@ -4,7 +4,7 @@ try:
     conn = psycopg2.connect(
         database = "Python_Project", # database name
         user = "postgres",
-        password = "MacBookPro", #your password
+        password = "6108", #your password
         host = "127.0.0.1",
         port = "5432"
     )
@@ -67,6 +67,10 @@ try:
             Phone_number text NOT NULL,
 			Card_number text NOT NULL,
             Card_name text NOT NULL,
+            Sec_number text NOT NULL,
+            Zip_code text NOT NULL)"""
+        )
+        conn.commit()
         cursor.close()  
     createTables()
 except (Exception, psycopg2.Error) as error:
