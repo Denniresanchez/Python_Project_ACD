@@ -4,7 +4,7 @@ try:
     conn = psycopg2.connect(
         database = "Python_Project", # database name
         user = "postgres",
-        password = "6108", #your password
+        password = "MacBookPro", #your password
         host = "127.0.0.1",
         port = "5432"
     )
@@ -13,64 +13,88 @@ try:
         # create table users: To save user authentication information
         cursor.execute(
             """CREATE TABLE Users (
-			User_id SERIAL NOT NULL PRIMARY KEY,
-			First_name text NOT NULL,
-            Last_name text NOT NULL,
-			Phone_number text NOT NULL,
-            Username text NOT NULL,
-            User_pass text NOT NULL,
-            User_address text NOT NULL,
-            Zip_code text NOT NULL,
-            Answer1 text NOT NULL,
-            Answer2 text NOT NULL)"""
+			user_id SERIAL NOT NULL PRIMARY KEY,
+			first_name text NOT NULL,
+            last_name text NOT NULL,
+			phone_number text NOT NULL,
+            username text NOT NULL,
+            user_pass text NOT NULL,
+            user_address text NOT NULL,
+            zip_code text NOT NULL,
+            answer1 text NOT NULL,
+            answer2 text NOT NULL)"""
 		)
         conn.commit()
         #create table reservations
         cursor.execute(
             """CREATE TABLE Reservations (
-			Customer_id serial NOT NULL PRIMARY KEY,
-            First_name text NOT NULL,
-            Last_name text NOT NULL,
-			Phone_number text NOT NULL,
-            Month_sch text NOT NULL,
-            Day_sch text NOT NULL,
-            Time_sch text NOT NULL,
-            Service_sch text NOT NULL, 
-            Package_sch text NOT NULL,
-            Technician text NOT NULL)"""
+			reservation_id serial NOT NULL PRIMARY KEY,     
+            reservation_month text NOT NULL,
+            reservation_day smallint NOT NULL,
+            reservation_time text NOT NULL,
+            reservation_service text NOT NULL, 
+            reservation_technician text NOT NULL,
+            user_id INT,
+            FOREIGN KEY (user_id) REFERENCES Users(user_id)
+            username text,
+            FOREIGN KEY (username) REFERENCES Users(username)
+            ) """
 		)
         conn.commit()
+
+
+
+
+        #___________________________________________________________________________
         #create table services
         cursor.execute(
             """CREATE TABLE Services (
-			Service_id serial NOT NULL PRIMARY KEY,
-            Service_nam text NOT NULL,
-			Service_price real NOT NULL,
-            Technician text NOT NULL)"""
+			service_id serial NOT NULL PRIMARY KEY,
+            "servicename" CHARACTER(20) UNIQUE,
+			service_price money UNIQUE 
+            ) """
         )
         conn.commit()
-        #create table packages
-        cursor.execute(
-            """CREATE TABLE Packages ( 
-            Package_id serial NOT NULL PRIMARY KEY,
-            Package_nam text NOT NULL,
-            Package_price real NOT NULL,
-            Technician text NOT NULL)"""
-        )
-        conn.commit()
-        #create table payments where we save the payment information of the usersss
+       #___________________________________________________________________________
+
+
+
+
+
+
+        #create table payments where we to save the payment information of the users
         cursor.execute(
             """CREATE TABLE Payments (
-			User_id serial NOT NULL PRIMARY KEY,
-            First_name text NOT NULL,
-            Last_name text NOT NULL,
-            Phone_number text NOT NULL,
-			Card_number text NOT NULL,
-            Card_name text NOT NULL,
-            Sec_number text NOT NULL,
-            Zip_code text NOT NULL)"""
+            payment_id serial NOT NULL PRIMARY KEY,    
+			card_number text NOT NULL,
+            card_name text NOT NULL,
+            security_number text NOT NULL,
+           
+            user_id INT,
+            FOREIGN KEY (user_id) REFERENCES Users(user_id))"""
         )
         conn.commit()
+
+        #create table orders where every order is stored
+        cursor.execute(
+            """CREATE TABLE Orders (
+			order_id serial NOT NULL PRIMARY KEY,
+           
+            user_id INT,
+            FOREIGN KEY (user_id) REFERENCES Users(user_id),
+
+            reservation_id INT,
+            FOREIGN KEY (reservation_id) REFERENCES Reservations(reservation_id),
+
+            service_id INT,
+            FOREIGN KEY (service_id) REFERENCES Services(service_id),
+
+            service_price  money,
+            FOREIGN KEY (service_price) REFERENCES Services(service_price))"""
+        )
+        conn.commit()
+
+
         cursor.close()  
     createTables()
 except (Exception, psycopg2.Error) as error:

@@ -4,7 +4,7 @@ try:
     conn = psycopg2.connect(
         database = "Python_Project", # database name
         user = "postgres",
-        password = "6108", #your password
+        password = "MacBookPro", #your password
         host = "127.0.0.1",
         port = "5432"
     )
@@ -13,56 +13,76 @@ try:
         cursor = conn.cursor()
     # insert users into database
         cursor.execute(
-            """INSERT INTO Users (First_name, Last_name, Phone_number, Username, User_pass, User_address, Zip_Code, Answer1, Answer2)
+            """INSERT INTO Users (first_name, last_name, phone_number, username, user_pass, user_address, zip_Code, answer1, answer2)
             VALUES ('Dennire', 'Sanchez', '7866303833', 'dearsea', 'mnbv0987', 'Sunny Isles blvd', '33160', 'valencia', 'cecilia')""" 
 		) 
         conn.commit()
     insertUsers()
+
+
+
     # function to insert reservations 
     def insertReservations(): 
         cursor = conn.cursor()
     # insert reservations into database
         cursor.execute(
-                """INSERT INTO Reservations (First_name, Last_name, Phone_number, Month_sch, Day_sch, Time_sch, Service_sch, Package_sch, Technician)
-                VALUES ('Dennire', 'Sanchez', '7866303833', '10', '10', '10',  'manicure',' ', '1')"""
+                """INSERT INTO Reservations (reservation_month, reservation_day, reservation_time, reservation_service,  reservation_technician, user_id, username)
+                VALUES ('10', '10', '10:00AM',  'Manicure','Maria', 1, 'dearsea')"""
             ) 
         conn.commit()
     insertReservations()
+
+
+
+
+    #___________________________________________________________________________
     # function to insert services
     def insertServices(): 
         cursor = conn.cursor()
     # insert services into database
         cursor.execute(
-                """INSERT INTO Services (Service_nam, Service_price, Technician)
-                VALUES ('Manicure', 18, '1'),
-                ('Manicure', 18, '2'),
-                ('Manicure', 18, '3')"""
+                """INSERT INTO Services (servicename, service_price)
+                VALUES ('Manicure', 18),
+                ('Pedicure', 16),
+                ('Mani&Pedi', 32),
+                ('Regular Facial', 80),
+                ('Special Facial', 150),
+                ('Eyebrows Waxing', 12)"""
             ) 
         conn.commit()
     insertServices()
-     # function to insert packagesss
-    def insertPackages():
-        cursor = conn.cursor()
-    # insert packages into database
-        cursor.execute(
-                """INSERT INTO Packages (Package_nam, Package_price, Technician)
-                VALUES ('ManiAndPedi', 28, '1'),
-                ('ManiAndPedi', 28, '2'),
-                ('ManiAndPedi', 28, '3')"""
-            )
-        conn.commit()
-    insertPackages()
-# function to insert packages
+    #___________________________________________________________________________
+
+
+
+
+
+
+# function paymentmethod into database
     def insertPaymentInfo(): 
         cursor = conn.cursor()
 # insert paymentmethod into database
         cursor.execute(
-                """INSERT INTO Payments (First_name, Last_name, Phone_number, Card_number, Card_name, Sec_number, Zip_code)
-                VALUES ('Dennire', 'Sanchez', '7866303833', '5476354687659876', 'Dennire Sanchez', '854', '33160')"""
+                """INSERT INTO Payments (card_number, card_name, security_number, user_id)
+                VALUES ('5476354687659876', 'Dennire Sanchez', '854', 1)"""
             ) 
         conn.commit()
-        cursor.close()
     insertPaymentInfo()
+
+
+#  # function to insert orders
+    def insertOrders(): 
+        cursor = conn.cursor()
+# insert orders into database
+        cursor.execute(
+                """INSERT INTO Orders (user_id, reservation_id, service_id, service_price)
+                VALUES (1, 1, 1, 18)
+                """
+            ) 
+        conn.commit()
+    insertOrders()
+       
+  
 
 except (Exception, psycopg2.Error) as error:
     print("Error while fetching data PostgreSQL", error)
