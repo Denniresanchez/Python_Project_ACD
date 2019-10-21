@@ -26,8 +26,8 @@ try:
         cursor = conn.cursor()
     # insert reservations into database
         cursor.execute(
-                """INSERT INTO Reservations (reservation_month, reservation_day, reservation_time, reservation_service,  reservation_technician, user_id, username)
-                VALUES ('10', '10', '10:00AM',  'Manicure','Maria', 1, 'dearsea')"""
+                """INSERT INTO Reservations (reservation_month, reservation_day, reservation_time, reservation_service,  reservation_technician, username)
+                VALUES ('10', '10', '10:00AM',  'Manicure','Maria', 'dearsea')"""
             ) 
         conn.commit()
     insertReservations()
@@ -42,7 +42,7 @@ try:
     # insert services into database
         cursor.execute(
                 """INSERT INTO Services (servicename, service_price)
-                VALUES ('Manicure', 18),
+                VALUES ('Manicure', 18), 
                 ('Pedicure', 16),
                 ('Mani&Pedi', 32),
                 ('Regular Facial', 80),
