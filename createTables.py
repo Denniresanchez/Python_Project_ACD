@@ -11,46 +11,46 @@ try:
     def createTables(): # function to create the tables
         cursor = conn.cursor()
         # create table users: To save user authentication information
-###### MISSING VALIDATIONS FOR DATA TYPE AND UNIQUE CONSTRAINT*******
-        # cursor.execute(
-        #     """CREATE TABLE Users (
-		# 	user_id SERIAL NOT NULL PRIMARY KEY,
-		# 	first_name text NOT NULL,
-        #     last_name text NOT NULL,
-		# 	phone_number text NOT NULL,
-        #     username text UNIQUE,
-        #     user_pass text NOT NULL,
-        #     user_address text NOT NULL,
-        #     zip_code text NOT NULL,
-        #     answer1 text NOT NULL,
-        #     answer2 text NOT NULL)"""
-		# )
-        # conn.commit()
-        # #create table reservations
-        # cursor.execute(
-        #     """CREATE TABLE Reservations (
-		# 	reservation_id serial NOT NULL PRIMARY KEY,     
-        #     reservation_month text NOT NULL,
-        #     reservation_day smallint NOT NULL,
-        #     reservation_time text NOT NULL,
-        #     reservation_service text NOT NULL, 
-        #     reservation_technician text NOT NULL,
-        #     username text,
-        #     FOREIGN KEY (username) REFERENCES Users(username)
-        #     ) """
-		# )
-        # conn.commit()
+##### MISSING VALIDATIONS FOR DATA TYPE AND UNIQUE CONSTRAINT*******
+        cursor.execute(
+            """CREATE TABLE Users (
+			user_id SERIAL NOT NULL PRIMARY KEY,
+			first_name text NOT NULL,
+            last_name text NOT NULL,
+			phone_number text NOT NULL,
+            username text UNIQUE,
+            user_pass text NOT NULL,
+            user_address text NOT NULL,
+            zip_code text NOT NULL,
+            answer1 text NOT NULL,
+            answer2 text NOT NULL)"""
+		)
+        conn.commit()
+        #create table reservations
+        cursor.execute(
+            """CREATE TABLE Reservations (
+			reservation_id serial NOT NULL PRIMARY KEY,     
+            reservation_month text NOT NULL,
+            reservation_day smallint NOT NULL,
+            reservation_time text NOT NULL,
+            reservation_service text NOT NULL, 
+            reservation_technician text NOT NULL,
+            username text,
+            FOREIGN KEY (username) REFERENCES Users(username)
+            ) """
+		)
+        conn.commit()
 
 
-        # #create table services
-        # cursor.execute(
-        #     """CREATE TABLE Services (
-		# 	service_id serial NOT NULL PRIMARY KEY,
-        #     servicename CHARACTER(20) UNIQUE,
-		# 	service_price money UNIQUE 
-        #     ) """
-        # )
-        # conn.commit()
+        #create table services
+        cursor.execute(
+            """CREATE TABLE Services (
+			service_id serial NOT NULL PRIMARY KEY,
+            servicename CHARACTER(20) UNIQUE,
+			service_price money UNIQUE 
+            ) """
+        )
+        conn.commit()
 
 
         # #create table payments where we save the payment information of the users
