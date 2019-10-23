@@ -4,14 +4,14 @@ try:
     conn = psycopg2.connect(
         database = "Python_Project", # database name
         user = "postgres",
-        password = "MacBookPro", #your password
+        password = "6108", #your password
         host = "127.0.0.1",
         port = "5432"
     )
     def createTables(): # function to create the tables
         cursor = conn.cursor()
         # create table users: To save user authentication information
-##### MISSING VALIDATIONS FOR DATA TYPE AND UNIQUE CONSTRAINT*******
+
         cursor.execute(
             """CREATE TABLE Users (
 			user_id SERIAL NOT NULL PRIMARY KEY,
@@ -53,18 +53,18 @@ try:
         conn.commit()
 
 
-        # #create table payments where we save the payment information of the users
-        # cursor.execute(
-        #     """CREATE TABLE Payments (
-        #     payment_id serial NOT NULL PRIMARY KEY,    
-		# 	card_number text NOT NULL,
-        #     card_name text NOT NULL,
-        #     security_number text NOT NULL,
-           
-        #     user_id INT,
-        #     FOREIGN KEY (user_id) REFERENCES Users(user_id))"""
-        # )
-        # conn.commit()
+        #create table payments where we save the payment information of the users
+        cursor.execute(
+            """CREATE TABLE Payments (
+            payment_id serial NOT NULL PRIMARY KEY,    
+			card_number text NOT NULL,
+            card_name text NOT NULL,
+            security_number text NOT NULL,
+            card_expiration text NOT NULL,
+            username text,
+            FOREIGN KEY (username) REFERENCES Users(username))"""
+        )
+        conn.commit()
 
 
 
