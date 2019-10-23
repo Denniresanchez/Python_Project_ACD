@@ -58,7 +58,6 @@ while x == 1:
         functions.reservation()
        
     elif selection == "2":
-        print("checkout")
         functions.checkout()
   
     elif selection == "3":
