@@ -620,57 +620,45 @@ try:
         else:
         ####Confirm reservation######
             while True:
-                try:
-                    confirmation = int(input(f"""
-                    
-                    Reservation:
-
-                    Month: {selectedMonth} 
-                    Day: {selectedDay} 
-                    Time: {selectedTime} 
-                    Technician: {technician}
-                    Service: {selectedService} 
-
-                    >>>> Confirm this reservation ??? 
-                    
-                    1. Yes
-                    2. No
-                    
-                    """))
-
-                    if confirmation == 1:
-
-                        # inserting info in reservation table
-
-                        cursor.execute("""INSERT INTO Reservations (reservation_month, reservation_day, reservation_time, reservation_service,  reservation_technician, username)
-                        VALUES (%s, %s, %s, %s, %s, %s)""", (selectedMonth, selectedDay, selectedTime, selectedService, technician, username)) 
-                        conn.commit()
-        
-                        # inserting info in order table
-    
-                        cursor.execute("""INSERT INTO orders (username, servicename, service_price, processed_order) 
-                        VALUES (%s, %s, %s, 'no')""", (username, selectedService, service_price)) 
-                        conn.commit()
-                        cursor.close()
-                    
-                        print("Thank you for your business. We will see you soon...")
-                        time.sleep(3)
-        
-                        break          
-
-                    else: 
-
-                        if confirmation == 2:
-
-                                print("Re-schedule your appointment... ")
-                                time.sleep(2)
-                                reservation()
-                        break
+                confirmation = input(f"""
                 
-                except: 
+                Reservation:
+                Month: {selectedMonth} 
+                Day: {selectedDay} 
+                Time: {selectedTime} 
+                Technician: {technician}
+                Service: {selectedService} 
+                >>>> Confirm this reservation ??? 
+                
+                1. Yes
+                2. No
+                
+                """)
+                if confirmation == "1":
+                    # inserting info in reservation table
+                    cursor.execute("""INSERT INTO Reservations (reservation_month, reservation_day, reservation_time, reservation_service,  reservation_technician, username)
+                    VALUES (%s, %s, %s, %s, %s, %s)""", (selectedMonth, selectedDay, selectedTime, selectedService, technician, username)) 
+                    conn.commit()
+    
+                    # inserting info in order table
 
-                        print(" ")
-                        print("Wrong answer. Select only '1' or '2' ")
+                    cursor.execute("""INSERT INTO orders (username, servicename, service_price, processed_order) 
+                    VALUES (%s, %s, %s, 'no')""", (username, selectedService, service_price)) 
+                    conn.commit()
+                    cursor.close()
+                
+                    print("Thank you for your business. We will see you soon...")
+                    time.sleep(3)
+                    break          
+                elif confirmation == "2":
+                    print("Re-schedule your appointment... ")
+                    time.sleep(2)
+                    reservation()
+                    break
+                else: 
+                    print(" ")
+                    print("Wrong answer. Select only '1' or '2' ")
+                    time.sleep(2)
 
 
             
