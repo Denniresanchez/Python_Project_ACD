@@ -4,7 +4,7 @@ try:
     conn = psycopg2.connect(
         database = "Python_Project", # database name
         user = "postgres",
-        password = "MacBookPro", #your password
+        password = "c3211996", #your password
         host = "127.0.0.1",
         port = "5432"
     )
@@ -22,8 +22,21 @@ try:
 
         fName = input("Enter your first name >> ").title()
         lName = input("Enter your last name >> ").title()        
-        phone = input("Enter your phone number >> ")        
-        username = input("Enter your username >> ")
+        phone = input("Enter your phone number >> ")   
+
+
+        #Check if username already exists in database
+        usernameExists = True
+        while usernameExists == True:
+            username = input("Enter your username >> ")
+            cursor.execute(f'SELECT username FROM Users WHERE username=%s', (username,));
+            rows = cursor.fetchall()
+            if(rows):
+                print("Username already exists")
+            else:
+                usernameExists = False
+
+
         while True:
                 password1 = getpass.getpass(prompt="Enter your password: ")
                 password2 = getpass.getpass(prompt="Enter your password again: ")
@@ -54,31 +67,88 @@ try:
 #Authentication Function
     def auth():
         global username
-        print("""
-        ****** PLEASE LOG IN ******
-        """)        
-        username = input("username: ")
-        password = getpass.getpass(prompt="password: ")
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM users WHERE username=%s AND user_pass=%s", (username, password))
-        rows = cursor.fetchall()
-        file = open("log.txt", 'a' )
-        now = datetime.datetime.now()
-        if(rows):
-            print(" ")
-            print("""You have succesfully logged in!""")
-            time.sleep(3)
-            file.write(f"User {username} logged in at {now}\n")
-            x = 1
-        #Add !if(rows): print("user does not exist")
-        else:
-            print(" ")
-            print("""Wrong credentials""")
-            time.sleep(3)
-            file.write(f"Someone tried to log in using this username: '{username}' at {now}\n")
-            x = 1
-            file.close()
-        cursor.close()
+        while True:
+            authChoice = input("""
+            What would you like to do?
+            1. Login
+            2. Forgot Password
+            """)
+            if(authChoice == "1"):
+                print("""
+                ****** PLEASE LOG IN ******
+                """)        
+                username = input("username: ")
+                password = getpass.getpass(prompt="password: ")
+                cursor = conn.cursor()
+                cursor.execute("SELECT * FROM users WHERE username=%s AND user_pass=%s", (username, password))
+                rows = cursor.fetchall()
+                file = open("log.txt", 'a' )
+                now = datetime.datetime.now()
+                if(rows):
+                    print(" ")
+                    print("""You have succesfully logged in!""")
+                    time.sleep(3)
+                    file.write(f"User {username} logged in at {now}\n")
+                    x = 1
+                #Add !if(rows): print("user does not exist")
+                else:
+                    print(" ")
+                    print("""Wrong credentials""")
+                    time.sleep(3)
+                    file.write(f"Someone tried to log in using this username: '{username}' at {now}\n")
+                    x = 1
+                    file.close()
+                cursor.close()
+                break
+            elif authChoice == "2":
+                usernameExists = False
+                cursor = conn.cursor()
+                while usernameExists == False:
+                    confirmUser = input("Enter your username to reset your password >> ")
+                    cursor.execute(f'SELECT username FROM Users WHERE username=%s', (confirmUser,));
+                    rows = cursor.fetchall()
+                    if(rows):
+                        while True:
+                            print("")
+                            print("Please answer the following security questions to confirm your identity...")
+                            print("")
+                            time.sleep(2)
+                            securityAnswer1 = input("What is your middle name? >> ")
+                            securityAnswer2 = input("Where were you born? >> ")
+
+                            cursor.execute(f'SELECT answer1, answer2 FROM Users WHERE username=%s AND answer1=%s AND answer2=%s', (confirmUser, securityAnswer1, securityAnswer2,))
+                            securityRows = cursor.fetchall()
+                            if(securityRows):
+                                print("Identity Confirmed. Please reset password")
+
+                                while True:
+                                    password1 = getpass.getpass(prompt="Enter your password: ")
+                                    password2 = getpass.getpass(prompt="Enter your password again: ")
+                                    if password1 == password2:
+                                        cursor.execute(f'UPDATE Users SET user_pass=%s WHERE username=%s', (password1, confirmUser,));
+                                        print("")
+                                        print(f'Password for user {confirmUser} has been successfully updated. You may login with your new password')
+                                        time.sleep(2)
+                                        conn.commit()
+                                        cursor.close()
+                                        auth()
+                                        break
+                                    else:
+                                        print(" ")
+                                        print(" The passwords you entered do not match! Try again!")
+                                        print(" ")
+                                break
+                            else:
+                                print("Incorrect answer(s). Please try again.")
+
+                        usernameExists = True
+                        cursor.close()
+                    else:
+                        print("Username does not exist. Please try again.")
+                break
+            else:
+                print("")
+                print("Incorrect option. Please enter 1 or 2")
 
 
 #Reservacion Funtion
@@ -607,8 +677,13 @@ try:
         cursor.close()
         x = 1
 
+
+
+
+    subtotal = 0
     def myOrders():
         global username
+        global subtotal
         cursor = conn.cursor()
         cursor.execute(f"SELECT * FROM Orders WHERE username='{username}'")
         rows = cursor.fetchall()
@@ -623,7 +698,8 @@ try:
                 print("Price = ", row[3])
                 print("Processed status = ", row[4], "\n")
                 counter+=1
-            time.sleep(4)
+                subtotal += float(row[3][1:])
+            time.sleep(1)
                
         else:
             print(f"{username}, You do not have any orders.")
@@ -633,6 +709,45 @@ try:
         cursor.close()
         x = 1
 
+    
+    def paymentInfo():
+        global username
+        cursor = conn.cursor()
+        cardName = input("Enter full name that is listed on your credit/debit card >> ")
+        cardNumber = input("Enter the 16 digit number for your credit/debit card >> ")
+        cardExpiration = input("Enter the expiration date of your credit/debit card >> ")
+        cardSecurity = input("Enter the 3 digit security code of your credit/debit card >> ")
+
+        cursor.execute(f"INSERT INTO Payments(card_number, card_name, security_number, card_expiration, username) VALUES (%s, %s, %s, %s, %s)", (cardNumber, cardName, cardSecurity, cardExpiration, "LopezChris616",))
+        conn.commit()
+        print(f"Payment info submitted for user LopezChris616")
+        cursor.close()
+
+    def checkout():
+        global subtotal
+        subtotal = 0
+        myOrders()
+        print("")
+        tax = subtotal * 0.07
+        print(f"""Subtotal......${subtotal}
+        Tax......${tax}
+        Total.......${subtotal + tax}""")
+        print("")
+        while True:
+            checkoutOption = input("Would you like to make a payment [y/n] >> ").lower()
+            if(checkoutOption == "y"):
+                paymentInfo()
+                print("")
+                print("Payment successfully made. Thank you for your business!")
+                subtotal = 0
+                x = 1
+                break
+            elif(checkoutOption == "n"):
+                x = 1
+                subtotal = 0
+                break
+            else:
+                print("Incorrect option, please try again.")
 
  
     
