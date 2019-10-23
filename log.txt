@@ -94,6 +94,7 @@ User dearsea logged in at 2019-10-21 18:24:08.775522
 User dearsea logged in at 2019-10-21 18:25:02.671427
 User dearsea logged in at 2019-10-21 18:26:01.346958
 Someone tried to log in using this username: 'catalsy' at 2019-10-21 18:51:46.272109
+<<<<<<< HEAD
 Someone tried to log in using this username: 'dearsea' at 2019-10-22 17:50:23.048380
 Someone tried to log in using this username: 'dearsea' at 2019-10-22 17:52:12.510377
 User dearsea logged in at 2019-10-22 17:52:23.946100
@@ -125,3 +126,31 @@ User dearsea logged in at 2019-10-22 16:26:43.603750
 User dearsea logged in at 2019-10-22 16:29:29.499560
 User dearsea logged in at 2019-10-22 16:40:55.416915
 
+=======
+User LopezChris616 logged in at 2019-10-22 16:14:41.498520
+User LopezChris616 logged in at 2019-10-22 19:25:18.307830
+User LopezChris616 logged in at 2019-10-22 19:41:36.105275
+Someone tried to log in using this username: 'LopezChris616' at 2019-10-22 19:41:55.122872
+Someone tried to log in using this username: 'lopezchris616' at 2019-10-22 19:43:52.014062
+User LopezChris616 logged in at 2019-10-22 19:44:18.889226
+User LopezChris616 logged in at 2019-10-22 22:04:21.290635
+Someone tried to log in using this username: 'jc' at 2019-10-22 22:40:33.561886
+User jc logged in at 2019-10-22 22:41:00.686640
+User LopezChris616 logged in at 2019-10-22 22:48:09.261457
+User jc logged in at 2019-10-22 23:11:37.502968
+User LopezChris616 logged in at 2019-10-22 23:12:23.918679
+User LopezChris616 logged in at 2019-10-22 23:57:11.840624
+User LopezChris616 logged in at 2019-10-22 23:57:54.821620
+User LopezChris616 logged in at 2019-10-22 23:58:38.021596
+User LopezChris616 logged in at 2019-10-23 00:00:56.128354
+User LopezChris616 logged in at 2019-10-23 00:01:25.512598
+User LopezChris616 logged in at 2019-10-23 00:34:11.775427
+User LopezChris616 logged in at 2019-10-23 00:36:47.163441
+User LopezChris616 logged in at 2019-10-23 00:44:53.724018
+User LopezChris616 logged in at 2019-10-23 00:46:12.905902
+User LopezChris616 logged in at 2019-10-23 00:58:08.280320
+User LopezChris616 logged in at 2019-10-23 01:20:04.558235
+User LopezChris616 logged in at 2019-10-23 01:22:41.273115
+User LopezChris616 logged in at 2019-10-23 01:24:03.983619
+User LopezChris616 logged in at 2019-10-23 01:27:29.118998
+>>>>>>> changes

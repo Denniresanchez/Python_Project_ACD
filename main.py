@@ -87,6 +87,7 @@ while x == 1:
        
     elif selection == "2":
         print("checkout")
+        functions.checkout()
   
     elif selection == "3":
         functions.myReservations()
