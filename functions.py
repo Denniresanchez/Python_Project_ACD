@@ -1,4 +1,5 @@
 import psycopg2, time, datetime, os,  calendar, getpass, re
+
 try:
 #Required information to use the db 
     conn = psycopg2.connect(
@@ -82,6 +83,8 @@ try:
         time.sleep(3)
         conn.commit()
         cursor.close()
+        x = 0
+        
 
     
 
@@ -110,14 +113,14 @@ try:
                     print("""You have succesfully logged in!""")
                     time.sleep(3)
                     file.write(f"User {username} logged in at {now}\n")
-                    x = 1
+                    return True
                 #Add !if(rows): print("user does not exist")
                 else:
                     print(" ")
                     print("""Wrong credentials""")
                     time.sleep(3)
                     file.write(f"Someone tried to log in using this username: '{username}' at {now}\n")
-                    x = 1
+                    return False
                     file.close()
                 cursor.close()
                 break
@@ -172,6 +175,7 @@ try:
                 print("Incorrect option. Please enter 1 or 2")
 
 
+
 #Reservacion Funtion
     def reservation():
         global username
@@ -181,6 +185,7 @@ try:
         while x == 1:
             
             global time
+            os.system('clear')
             print(" ")
             print("""       
             ****** RESERVATION ******
@@ -295,9 +300,6 @@ try:
             x = 1    
             while x == 1:
                 global calendar
-                global service
-                global service_price
-                global technician
                 #conditionals to display monthly calendar
                 if selectedMonth == "January":
                     y = int(2019)
@@ -367,13 +369,14 @@ try:
                 if selectedMonth == "February":
                     if choice not in list(range(1,29)):
                         print(" ")
-                        print("""The month you selected has only 28 days. Try to enter a valid day number""")
+                        print("""The month you've selected has only 28 days. Try to enter a valid day number""")
                         x = 1
                     elif choice in list(range(1,29)):
                         selectedDay = choice
                         print(" ")
                         print(f"""You selected day number {selectedDay}. """)
                         x = 0
+
 
                 elif selectedMonth == "April" or selectedMonth == "June" or selectedMonth == "September" or selectedMonth == "November":
                     if choice not in list(range(1,31)):
@@ -383,7 +386,7 @@ try:
                     elif choice in list(range(1,31)):
                         selectedDay = choice
                         print(" ")
-                        print(f"""You selected day number {selectedDay}! """)
+                        print(f"""You selected day number {selectedDay}. """)
                         x = 0
 
                 elif selectedMonth == "January" or "March" or "May" or "July" or "August" or "October" or "December":
@@ -396,6 +399,12 @@ try:
                         print(" ")
                         print(f"""You selected day number {selectedDay}. """)
                         x = 0
+
+
+                        # selectedDay = choice
+                        # print(" ")
+                        # print(f"""You selected day number {selectedDay}. """)
+                        # x = 0
                     
 
 
@@ -491,7 +500,6 @@ try:
 
 #Validation while loop to select a service
         x = 1
-        
         while x == 1:
             
             #services dictionary
@@ -517,52 +525,50 @@ try:
             if choice != "1" and choice != "2" and choice != "3" and choice != "4" and choice != "5" and choice != "6":
                 print(" ")
                 print("""Wrong option! Select an option in the menu [1-6].""")
+                time.sleep(2)
                 x = 1
                 
             elif choice == "1":
                 selectedService = "Manicure"
                 service_price = 18
                 print(" ")
-                print(f"""You selected {selectedService} service.""" )
+                print(f"""You've selected {selectedService} service.""" )
                 x = 0
 
             elif choice == "2":
                 selectedService = "Pedicure"
                 service_price = 16
                 print(" ")
-                print(f"""You selected {selectedService} service""" )
+                print(f"""You've selected {selectedService} service""" )
                 x = 0
 
             elif choice == "3":
                 selectedService = "Mani and Pedi"
                 service_price = 32
                 print(" ")
-                print(f"""You selected {selectedService} service""" )
+                print(f"""You've selected {selectedService} service""" )
                 x = 0
 
             elif choice == "4":
                 selectedService = "Regular Facial"
                 service_price = 80
                 print(" ")
-                print(f"""You selected {selectedService} service""" )
+                print(f"""You've selected {selectedService} service""" )
                 x = 0
 
             elif choice == "5":
                 selectedService = "Special Facial"
                 service_price = 150
                 print(" ")
-                print(f"""You selected {selectedService} service""" )
+                print(f"""You've selected {selectedService} service""" )
                 x = 0
 
             elif choice == "6":
                 selectedService = "Eyebrows Waxing"
                 service_price = 12
                 print(" ")
-                print(f"""You selected {selectedService} service""" )
+                print(f"""You've selected {selectedService} service""" )
                 x = 0
-          
-          
-          
           
 
 #Validating TECHNICIAN
@@ -582,28 +588,25 @@ try:
             if choice != "1" and choice != "2" and choice != "3":
                 print(" ")
                 print("""Wrong option! Select an option in the menu [1-3].""")
-                
+                time.sleep(2)
                 x = 1
 
             elif choice == '1':
                 print(" ")
                 technician = "Maria"
-                print(f"""You selected {technician} as your Technician""")
-                
+                print(f"""You've selected {technician} as your Technician""")
                 x = 0
 
             elif choice == '2':
                 print(" ")
                 technician = "Carla"
-                print(f"""You selected {technician} as your Technician""")
-                
+                print(f"""You've selected {technician} as your Technician""")
                 x = 0
 
             elif choice == '3':
                 print(" ")
                 technician = "Yulimar"
-                print(f"""You selected {technician} as your Technician""")
-                
+                print(f"""You've selected {technician} as your Technician""")
                 x = 0
         
 # Checking if row exits and inserting info into reservations table
@@ -611,64 +614,67 @@ try:
         rows = cursor.fetchall()
         if(rows):
             print(""" """)
-            print("""Someone already scheduled an appointment with these attributes. Try a different time, day or technician""")
-            time.sleep(5)
+            print("""Someone has already scheduled an appointment with these attributes. Try a different time, day or technician""")
+            time.sleep(2)
             x = 1
         else:
-        #####Confirm reservation######
-        #     while True:
-        #         try:
+        ####Confirm reservation######
+            while True:
+                try:
+                    confirmation = int(input(f"""
                     
-        #             if selectedDay == 1:
-        #                 bookedDay = "{selectedDay}st"
-        #             elif selectedDay == 2:
-        #                 bookedDay = "{selectedDay}nd"
-        #             elif selectedDay == 3:
-        #                 bookedDay = "{selectedDay}rd"
-        #             elif selectedDay > 3:
-        #                 bookedDay = "{selectedDay}th"
-                
-        #             confirmed = bool(input(f"""
-        #             Confirm reservation ???
+                    Reservation:
 
-        #             {selectedMonth} {bookedDay}, 2019 at {selectedTime} with {technician} >> (Y / N)"""))
+                    Month: {selectedMonth} 
+                    Day: {selectedDay} 
+                    Time: {selectedTime} 
+                    Technician: {technician}
+                    Service: {selectedService} 
 
-        #                 break
-        #             else: 
-        #                 print("Wrong answer. Select 'Y' or 'N' ")
-                
-        #         except: 
-        #             print(" ")
-        #             print("Wrong answer. Select 'Y' or 'N' ")
-        # cursor.close()
+                    >>>> Confirm this reservation ??? 
+                    
+                    1. Yes
+                    2. No
+                    
+                    """))
 
+                    if confirmation == 1:
+
+                        # inserting info in reservation table
+
+                        cursor.execute("""INSERT INTO Reservations (reservation_month, reservation_day, reservation_time, reservation_service,  reservation_technician, username)
+                        VALUES (%s, %s, %s, %s, %s, %s)""", (selectedMonth, selectedDay, selectedTime, selectedService, technician, username)) 
+                        conn.commit()
         
-
-
-
-
-
-            cursor.execute(
-                """INSERT INTO Reservations (reservation_month, reservation_day, reservation_time, reservation_service,  reservation_technician, username)
-                VALUES (%s, %s, %s, %s, %s, %s)""", (selectedMonth, selectedDay, selectedTime, selectedService, technician, username)
-            ) 
-            conn.commit()
+                        # inserting info in order table
     
-# inserting info in order table
-    
-            cursor.execute(
-            """INSERT INTO orders(username, servicename, service_price, processed_order) 
-            VALUES (%s, %s, %s, %s)""", (username, selectedService, service_price, "no")
-            ) 
-            conn.commit()
-           
-           
-            print("Thank you for your business. We will see you soon...")
-            time.sleep(3)
-            cursor.close()
-            x = 0
-    
-    # cursor.execute("SELECT * FROM users WHERE username=%s AND user_pass=%s", (username, password))
+                        cursor.execute("""INSERT INTO orders (username, servicename, service_price, processed_order) 
+                        VALUES (%s, %s, %s, 'no')""", (username, selectedService, service_price)) 
+                        conn.commit()
+                        cursor.close()
+                    
+                        print("Thank you for your business. We will see you soon...")
+                        time.sleep(3)
+        
+                        break          
+
+                    else: 
+
+                        if confirmation == 2:
+
+                                print("Re-schedule your appointment... ")
+                                time.sleep(2)
+                                reservation()
+                        break
+                
+                except: 
+
+                        print(" ")
+                        print("Wrong answer. Select only '1' or '2' ")
+
+
+            
+# cursor.execute("SELECT * FROM users WHERE username=%s AND user_pass=%s", (username, password))
 
 
     def myReservations():
@@ -682,13 +688,12 @@ try:
                 print(" ")
                 print(f"Reservation #{counter}")
                 print(" ")
-                print("Username = ", row[6], )
                 print("Month= ", row[1])
                 print("Day = ", row[2])
                 print("Time = ", row[3])
                 print("Service = ", row[4], "\n")
                 counter+=1
-            time.sleep(4)
+            time.sleep(10)
                
         else:
             print(" ")
@@ -712,15 +717,15 @@ try:
         if(rows):
             for row in rows:
                 print(" ")
-                print(f"Reservation #{counter}")
+                print(f"Order #{counter}")
                 print(" ")
-                print("Username = ", row[1], )
                 print("Service= ", row[2])
                 print("Price = ", row[3])
                 print("Processed status = ", row[4], "\n")
                 counter+=1
                 subtotal += float(row[3][1:])
             time.sleep(5)
+
                
         else:
             print(f"{username}, you either have not made any reservations or have already paid for your order.")

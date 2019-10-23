@@ -11,7 +11,7 @@ try:
     def createTables(): # function to create the tables
         cursor = conn.cursor()
         # create table users: To save user authentication information
-###### MISSING VALIDATIONS FOR DATA TYPE AND UNIQUE CONSTRAINT*******
+
         cursor.execute(
             """CREATE TABLE Users (
 			user_id SERIAL NOT NULL PRIMARY KEY,
