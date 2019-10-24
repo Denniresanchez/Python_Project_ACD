@@ -5,7 +5,7 @@ try:
     conn = psycopg2.connect(
         database = "Python_Project", # database name
         user = "postgres",
-        password = "6108", #your password
+        password = "c3211996", #your password
         host = "127.0.0.1",
         port = "5432"
     )
@@ -96,7 +96,7 @@ try:
             What would you like to do?
             1. Login
             2. Forgot Password
-            """)
+            >> """)
             if(authChoice == "1"):
                 print("""
                 ****** PLEASE LOG IN ******
@@ -633,7 +633,7 @@ try:
                 1. Yes
                 2. No
                 
-                """)
+                >> """)
                 if confirmation == "1":
                     # inserting info in reservation table
                     cursor.execute("""INSERT INTO Reservations (reservation_month, reservation_day, reservation_time, reservation_service,  reservation_technician, username)
@@ -712,7 +712,7 @@ try:
                 print("Processed status = ", row[4], "\n")
                 counter+=1
                 subtotal += float(row[3][1:])
-            time.sleep(5)
+            time.sleep(2)
 
                
         else:
@@ -779,9 +779,11 @@ try:
             time.sleep(3)
             x = 1
         else:
-            print(f"""Subtotal......${subtotal}
-            Tax......${tax}
-            Total.......${subtotal + tax}""")
+            print(f"""
+            Subtotal......${subtotal}
+            Tax...........${round(tax, 2)}
+            Total.........${subtotal + tax}
+            """)
             print("")
             while True:
                 checkoutOption = input("Would you like to make a payment [y/n] >> ").lower()
